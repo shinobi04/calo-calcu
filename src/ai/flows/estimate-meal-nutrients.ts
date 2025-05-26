@@ -24,7 +24,7 @@ const EstimateMealNutrientsOutputSchema = z.object({
   protein: z.number().describe('Estimated grams of protein in the meal.'),
   carbs: z.number().describe('Estimated grams of carbohydrates in the meal.'),
   fat: z.number().describe('Estimated grams of fat in the meal.'),
-  explanation: z.string().describe('A brief explanation of how the nutrient estimation was performed, including any assumptions made.'),
+  explanation: z.string().describe('A structured explanation of how the nutrient estimation was performed. This should include key assumptions (e.g., portion sizes, cooking methods) and a brief breakdown by main ingredients if possible.'),
 });
 export type EstimateMealNutrientsOutput = z.infer<typeof EstimateMealNutrientsOutputSchema>;
 
@@ -36,7 +36,7 @@ const estimateMealNutrientsPrompt = ai.definePrompt({
   name: 'estimateMealNutrientsPrompt',
   input: {schema: EstimateMealNutrientsInputSchema},
   output: {schema: EstimateMealNutrientsOutputSchema},
-  prompt: `You are an indian expert nutritionist with extensive knowledge of indian food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories, protein, carbohydrates, and fat) of the meal described by the user, and provide a brief explanation of your methodology.
+  prompt: `You are an indian expert nutritionist with extensive knowledge of indian food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories, protein, carbohydrates, and fat) of the meal described by the user, and provide a structured explanation of your methodology.
 
 Meal Description:
 {{{mealDescription}}}
@@ -46,18 +46,32 @@ Based on this description:
 2.  If quantities are not specified, assume standard portion sizes according to indian standards.
 3.  Break down the meal into its components and estimate the nutrients for each.
 4.  Sum the nutrient values to provide a total estimation for the meal.
-5.  Provide a brief explanation of how the estimation was performed. This explanation should highlight key assumptions made (e.g., standard portion sizes if not specified, primary ingredients considered for nutrient breakdown, cooking methods assumed if not detailed).
-6.  Provide your final estimation and explanation in a strict JSON format. Do not include any explanatory text, markdown, or any characters outside of the JSON structure.
+5.  Provide a structured explanation of how the estimation was performed. This explanation should be easy to read and understand. It must include:
+    *   A section for "Key Assumptions" (e.g., "Standard portion size of 150g for chicken breast assumed.", "Light oil used for frying assumed.").
+    *   A section for "Nutrient Breakdown (Main Ingredients)" if possible, briefly listing major components and their contribution (e.g., "Chicken Breast (approx. X kcal, Yg protein)", "Rice (approx. A kcal, Bg carbs)"). If a detailed breakdown is complex, summarize the main contributors.
+    *   A brief concluding remark.
+    Format this explanation clearly. You can use bullet points or numbered lists within the explanation sections for better readability.
+6.  Provide your final estimation and explanation in a strict JSON format. Do not include any explanatory text, markdown, or any characters outside of the JSON structure. The 'explanation' field should contain the structured text as described above.
 
 The JSON output must be an object with the following keys, and all values must be numbers for nutrients and a string for the explanation:
 - "calories": Estimated total calories (kcal)
 - "protein": Estimated total protein (grams)
 - "carbs": Estimated total carbohydrates (grams)
 - "fat": Estimated total fat (grams)
-- "explanation": "Your brief textual explanation of the estimation process and key assumptions."
+- "explanation": "Your structured textual explanation of the estimation process, including Key Assumptions and Nutrient Breakdown."
 
-Example of expected output:
-{ "calories": 500, "protein": 30, "carbs": 50, "fat": 20, "explanation": "Estimation based on a 4oz grilled chicken breast, 1 cup steamed broccoli, and 0.5 cup cooked quinoa. Assumed standard portion sizes and low-fat cooking methods." }
+Example of the 'explanation' field content:
+"Key Assumptions:
+* Standard portion size of 1 cup cooked rice assumed.
+* 1 medium-sized potato (150g) assumed.
+* Cooking method for dal assumed to be typical home-style with minimal oil.
+
+Nutrient Breakdown (Main Ingredients):
+* Dal (lentils): Major contributor to protein and carbs.
+* Rice: Primary source of carbohydrates.
+* Potato: Contributes to carbohydrates.
+
+This estimation is based on typical Indian preparations and portion sizes."
 
 Strive for the highest accuracy possible based on the information provided.
 Provide ONLY the JSON. Do not add any other text outside of the JSON. Do not return markdown.
@@ -82,3 +96,4 @@ const estimateMealNutrientsFlow = ai.defineFlow(
     return output;
   }
 );
+
