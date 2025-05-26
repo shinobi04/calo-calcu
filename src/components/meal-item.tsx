@@ -1,10 +1,16 @@
 'use client';
 
-import { Flame, Beef, Wheat, Droplets, Trash2 } from 'lucide-react';
+import { Flame, Beef, Wheat, Droplets, Trash2, Info } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import type { Meal } from '@/lib/types';
 import { Separator } from './ui/separator';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type MealItemProps = {
   meal: Meal;
@@ -39,8 +45,27 @@ export function MealItem({ meal, onDeleteMeal }: MealItemProps) {
         <Separator/>
         {nutrientItem(Droplets, 'Fat', meal.fat, 'g')}
       </CardContent>
-      <CardFooter>
-        <Button variant="ghost" size="sm" onClick={() => onDeleteMeal(meal.id)} className="text-destructive hover:text-destructive-foreground hover:bg-destructive/90 ml-auto">
+      <CardFooter className="flex justify-between items-center">
+        {meal.explanation ? (
+          <TooltipProvider delayDuration={100}>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-accent">
+                  <Info className="h-5 w-5" />
+                  <span className="sr-only">Show estimation explanation</span>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" align="start" className="max-w-xs sm:max-w-sm md:max-w-md bg-popover text-popover-foreground p-3 rounded-md shadow-lg text-sm">
+                <p className="font-semibold mb-1">AI Estimation Details:</p>
+                <p>{meal.explanation}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ) : (
+          // Placeholder to keep layout consistent if explanation is missing
+          <div style={{ width: '40px', height: '40px' }} /> // Same size as Button size="icon"
+        )}
+        <Button variant="ghost" size="sm" onClick={() => onDeleteMeal(meal.id)} className="text-destructive hover:text-destructive-foreground hover:bg-destructive/90">
           <Trash2 className="mr-2 h-4 w-4" />
           Delete
         </Button>

@@ -55,6 +55,7 @@ export function MealInputForm({ onMealAdded, ...props }: MealInputFormProps) {
           protein: result.protein,
           carbs: result.carbs,
           fat: result.fat,
+          explanation: result.explanation, // Add the explanation here
         };
         onMealAdded(newMeal);
         toast({
