@@ -15,4 +15,4 @@
 - **Macro Breakdown**: Protein, carbs, fats—see the real picture, no sugarcoating.
 - **Goal Crusher**: Cutting, bulking, or maintaining? Set it, and we’ll spit out the numbers to own it.
 - **Sick Charts**: Graphs that make your progress look as badass as you feel.
-- **Everywhere Access**: iOS, Android, web. No device gets to slack off.
+- **Everywhere Access**: iOS, Android, web. No device gets to slack off
