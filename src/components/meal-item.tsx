@@ -54,7 +54,11 @@ export function MealItem({ meal, onDeleteMeal }: MealItemProps) {
         {meal.explanation ? (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-accent">
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-foreground/70 hover:text-accent hover:bg-accent/15 rounded-full"
+              >
                 <Info className="h-5 w-5" />
                 <span className="sr-only">Show estimation explanation</span>
               </Button>
