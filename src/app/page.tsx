@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -77,18 +78,25 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 sm:p-6 lg:p-8 selection:bg-accent selection:text-accent-foreground">
-      <header className="w-full max-w-4xl mb-8">
+      <header className="w-full max-w-4xl mb-8 animate-in fade-in slide-in-from-top-4 duration-700 ease-out">
         <Logo />
       </header>
       
       <main className="w-full max-w-4xl space-y-8">
-        <MealInputForm onMealAdded={handleMealAdded} className="shadow-xl"/>
+        <MealInputForm 
+          onMealAdded={handleMealAdded} 
+          className="shadow-xl animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out"
+        />
         
-        <DailySummary meals={meals} onClearTodaysMeals={handleClearTodaysMeals} />
+        <DailySummary 
+          meals={meals} 
+          onClearTodaysMeals={handleClearTodaysMeals} 
+          className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out delay-100"
+        />
         
-        <Separator className="my-8" />
+        <Separator className="my-8 animate-in fade-in duration-700 ease-out delay-150" />
         
-        <div>
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out delay-200">
           <h2 className="text-3xl font-semibold mb-6 text-center sm:text-left">Meal History</h2>
           {isClient ? (
             <MealList meals={meals} onDeleteMeal={handleDeleteMeal} />
@@ -98,7 +106,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className="w-full max-w-4xl mt-12 py-6 text-center text-muted-foreground">
+      <footer className="w-full max-w-4xl mt-12 py-6 text-center text-muted-foreground animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out delay-300">
         <p>&copy; {new Date().getFullYear()} NutriSnap. All rights reserved.</p>
         <p className="text-xs mt-1">Eat well, live well.</p>
       </footer>

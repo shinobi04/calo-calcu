@@ -34,7 +34,7 @@ export function MealItem({ meal, onDeleteMeal }: MealItemProps) {
   );
 
   return (
-    <Card className="shadow-lg break-inside-avoid-column">
+    <Card className="shadow-lg break-inside-avoid-column animate-in fade-in zoom-in-95 duration-500 ease-out">
       <CardHeader>
         <CardTitle className="text-xl leading-tight">{meal.description}</CardTitle>
         <CardDescription>
@@ -58,6 +58,7 @@ export function MealItem({ meal, onDeleteMeal }: MealItemProps) {
                 variant="ghost" 
                 size="icon" 
                 className="text-foreground/70 hover:text-accent hover:bg-accent/15 rounded-full"
+                aria-label="Show estimation details"
               >
                 <Info className="h-5 w-5" />
                 <span className="sr-only">Show estimation explanation</span>
