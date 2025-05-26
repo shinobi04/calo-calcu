@@ -1,3 +1,4 @@
+
 // use server'
 
 /**
@@ -24,7 +25,7 @@ const EstimateMealNutrientsOutputSchema = z.object({
   protein: z.number().describe('Estimated grams of protein in the meal.'),
   carbs: z.number().describe('Estimated grams of carbohydrates in the meal.'),
   fat: z.number().describe('Estimated grams of fat in the meal.'),
-  explanation: z.string().describe('A structured explanation of how the nutrient estimation was performed. This should include key assumptions (e.g., portion sizes, cooking methods) and a brief breakdown by main ingredients if possible.'),
+  explanation: z.string().describe('A structured explanation of how the nutrient estimation was performed. This should include key assumptions (e.g., portion sizes, cooking methods) and a brief breakdown by main ingredients if possible, using bullet points and newlines for readability.'),
 });
 export type EstimateMealNutrientsOutput = z.infer<typeof EstimateMealNutrientsOutputSchema>;
 
@@ -47,20 +48,14 @@ Based on this description:
 3.  Break down the meal into its components and estimate the nutrients for each.
 4.  Sum the nutrient values to provide a total estimation for the meal.
 5.  Provide a structured explanation of how the estimation was performed. This explanation should be easy to read and understand. It must include:
-    *   A section for "Key Assumptions" (e.g., "Standard portion size of 150g for chicken breast assumed.", "Light oil used for frying assumed.").
-    *   A section for "Nutrient Breakdown (Main Ingredients)" if possible, briefly listing major components and their contribution (e.g., "Chicken Breast (approx. X kcal, Yg protein)", "Rice (approx. A kcal, Bg carbs)"). If a detailed breakdown is complex, summarize the main contributors.
+    *   A section titled "Key Assumptions:". Under this title, use bullet points (e.g., "* Assumption 1") for each assumption, with each bullet point on a new line.
+    *   A section titled "Nutrient Breakdown (Main Ingredients):". Under this title, if possible, use bullet points (e.g., "* Ingredient: approx. X kcal, Yg protein") for major components, with each bullet point on a new line. If a detailed breakdown is complex, summarize the main contributors.
     *   A brief concluding remark.
-    Format this explanation clearly. You can use bullet points or numbered lists within the explanation sections for better readability.
+    Format this explanation clearly. Ensure newlines are used to separate bullet points, sections, and titles.
+
 6.  Provide your final estimation and explanation in a strict JSON format. Do not include any explanatory text, markdown, or any characters outside of the JSON structure. The 'explanation' field should contain the structured text as described above.
 
-The JSON output must be an object with the following keys, and all values must be numbers for nutrients and a string for the explanation:
-- "calories": Estimated total calories (kcal)
-- "protein": Estimated total protein (grams)
-- "carbs": Estimated total carbohydrates (grams)
-- "fat": Estimated total fat (grams)
-- "explanation": "Your structured textual explanation of the estimation process, including Key Assumptions and Nutrient Breakdown."
-
-Example of the 'explanation' field content:
+Example of the 'explanation' field content (ensure your output follows this style, especially the use of newlines and bullet points):
 "Key Assumptions:
 * Standard portion size of 1 cup cooked rice assumed.
 * 1 medium-sized potato (150g) assumed.

@@ -66,7 +66,7 @@ export function MealItem({ meal, onDeleteMeal }: MealItemProps) {
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>AI Estimation Details</AlertDialogTitle>
-                <AlertDialogDescription className="text-sm text-muted-foreground max-h-[300px] overflow-y-auto">
+                <AlertDialogDescription className="text-sm text-muted-foreground max-h-[300px] overflow-y-auto whitespace-pre-line">
                   {meal.explanation}
                 </AlertDialogDescription>
               </AlertDialogHeader>
