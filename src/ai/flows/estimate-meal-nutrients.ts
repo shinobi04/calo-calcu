@@ -98,6 +98,15 @@ Nutrient Breakdown (Main Ingredients):
 
 This estimation is based on typical Indian preparations and portion sizes, supplemented by simulated web search for specific items as noted to improve accuracy."
 
+**Final Review Step:** Before providing the JSON output, meticulously review your entire estimation. Ensure:
+    *   All food items from the user's description have been addressed.
+    *   The numerical estimates (calories, protein, carbs, fat) are consistent with the itemized breakdown in your explanation.
+    *   The totals for calories, protein, carbs, and fat correctly sum up from the individual item breakdowns.
+    *   The explanation is clear, uses bullet points and newlines as requested, and accurately reflects the use (or non-use) of the 'searchWebForNutritionInfoTool' for each item.
+    *   All calculations are double-checked.
+    *   The output strictly adheres to the requested JSON schema.
+This review is crucial for accuracy.
+
 Strive for the highest accuracy possible. Provide ONLY the JSON. Do not add any other text outside of the JSON. Do not return markdown.
 `,
 });
