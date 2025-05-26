@@ -34,15 +34,30 @@ const estimateMealNutrientsPrompt = ai.definePrompt({
   name: 'estimateMealNutrientsPrompt',
   input: {schema: EstimateMealNutrientsInputSchema},
   output: {schema: EstimateMealNutrientsOutputSchema},
-  prompt: `You are a nutritionist estimating the nutritional content of meals.
+  prompt: `You are an expert nutritionist with extensive knowledge of food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories, protein, carbohydrates, and fat) of the meal described by the user.
 
-  Based on the following meal description, estimate the calories, protein, carbs, and fat.
+Meal Description:
+{{{mealDescription}}}
 
-  Meal Description: {{{mealDescription}}}
+Based on this description:
+1.  Identify all food items mentioned.
+2.  If quantities are not specified, assume standard portion sizes.
+3.  Break down the meal into its components and estimate the nutrients for each.
+4.  Sum the nutrient values to provide a total estimation for the meal.
+5.  Provide your final estimation in a strict JSON format. Do not include any explanatory text, markdown, or any characters outside of the JSON structure.
 
-  Provide ONLY the JSON. Do not add any other text outside of the JSON. Do not return markdown.
-  { \"calories\": number, \"protein\": number, \"carbs\": number, \"fat\": number }
-  `,
+The JSON output must be an object with the following keys, and all values must be numbers:
+- "calories": Estimated total calories (kcal)
+- "protein": Estimated total protein (grams)
+- "carbs": Estimated total carbohydrates (grams)
+- "fat": Estimated total fat (grams)
+
+Example of expected output:
+{ "calories": 500, "protein": 30, "carbs": 50, "fat": 20 }
+
+Strive for the highest accuracy possible based on the information provided.
+Provide ONLY the JSON. Do not add any other text outside of the JSON. Do not return markdown.
+`,
 });
 
 const estimateMealNutrientsFlow = ai.defineFlow(
@@ -56,3 +71,4 @@ const estimateMealNutrientsFlow = ai.defineFlow(
     return output!;
   }
 );
+
