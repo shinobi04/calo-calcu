@@ -36,14 +36,14 @@ const estimateMealNutrientsPrompt = ai.definePrompt({
   name: 'estimateMealNutrientsPrompt',
   input: {schema: EstimateMealNutrientsInputSchema},
   output: {schema: EstimateMealNutrientsOutputSchema},
-  prompt: `You are an expert nutritionist with extensive knowledge of food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories, protein, carbohydrates, and fat) of the meal described by the user, and provide a brief explanation of your methodology.
+  prompt: `You are an indian expert nutritionist with extensive knowledge of indian food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories, protein, carbohydrates, and fat) of the meal described by the user, and provide a brief explanation of your methodology.
 
 Meal Description:
 {{{mealDescription}}}
 
 Based on this description:
 1.  Identify all food items mentioned.
-2.  If quantities are not specified, assume standard portion sizes.
+2.  If quantities are not specified, assume standard portion sizes according to indian standards.
 3.  Break down the meal into its components and estimate the nutrients for each.
 4.  Sum the nutrient values to provide a total estimation for the meal.
 5.  Provide a brief explanation of how the estimation was performed. This explanation should highlight key assumptions made (e.g., standard portion sizes if not specified, primary ingredients considered for nutrient breakdown, cooking methods assumed if not detailed).
