@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Flame, Beef, Wheat, Droplets, Trash2, Info } from 'lucide-react';
@@ -6,11 +7,15 @@ import { Button } from '@/components/ui/button';
 import type { Meal } from '@/lib/types';
 import { Separator } from './ui/separator';
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type MealItemProps = {
   meal: Meal;
@@ -47,20 +52,25 @@ export function MealItem({ meal, onDeleteMeal }: MealItemProps) {
       </CardContent>
       <CardFooter className="flex justify-between items-center">
         {meal.explanation ? (
-          <TooltipProvider delayDuration={100}>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-accent">
-                  <Info className="h-5 w-5" />
-                  <span className="sr-only">Show estimation explanation</span>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent side="top" align="start" className="max-w-xs sm:max-w-sm md:max-w-md bg-popover text-popover-foreground p-3 rounded-md shadow-lg text-sm">
-                <p className="font-semibold mb-1">AI Estimation Details:</p>
-                <p>{meal.explanation}</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-accent">
+                <Info className="h-5 w-5" />
+                <span className="sr-only">Show estimation explanation</span>
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>AI Estimation Details</AlertDialogTitle>
+                <AlertDialogDescription className="text-sm text-muted-foreground max-h-[300px] overflow-y-auto">
+                  {meal.explanation}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogAction>Got it!</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         ) : (
           // Placeholder to keep layout consistent if explanation is missing
           <div style={{ width: '40px', height: '40px' }} /> // Same size as Button size="icon"
