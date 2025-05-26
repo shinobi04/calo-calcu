@@ -21,7 +21,7 @@ const EstimateMealNutrientsInputSchema = z.object({
 export type EstimateMealNutrientsInput = z.infer<typeof EstimateMealNutrientsInputSchema>;
 
 const EstimateMealNutrientsOutputSchema = z.object({
-  calories: z.number().describe('Estimated total calories in the meal.'),
+  calories: z.number().describe('Estimated total kilocalories (kcal) in the meal.'),
   protein: z.number().describe('Estimated grams of protein in the meal.'),
   carbs: z.number().describe('Estimated grams of carbohydrates in the meal.'),
   fat: z.number().describe('Estimated grams of fat in the meal.'),
@@ -58,7 +58,7 @@ const estimateMealNutrientsPrompt = ai.definePrompt({
   tools: [searchWebForNutritionInfoTool], // Make the tool available to the prompt
   input: {schema: EstimateMealNutrientsInputSchema},
   output: {schema: EstimateMealNutrientsOutputSchema},
-  prompt: `You are an indian expert nutritionist with extensive knowledge of indian food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories, protein, carbohydrates, and fat) of the meal described by the user, and provide a structured, item-by-item explanation of your methodology.
+  prompt: `You are an indian expert nutritionist with extensive knowledge of indian food composition and dietary analysis. Your task is to meticulously estimate the nutritional content (calories as kcal, protein, carbohydrates, and fat) of the meal described by the user, and provide a structured, item-by-item explanation of your methodology.
 
 Meal Description:
 {{{mealDescription}}}
@@ -69,7 +69,7 @@ For each food item identified in the meal description, consider if its nutrition
 Based on this description (and any information retrieved using the 'searchWebForNutritionInfoTool'):
 1.  Identify all primary food items mentioned.
 2.  For each item, if quantities are not specified, assume standard portion sizes according to Indian standards.
-3.  Estimate the nutrients for each component.
+3.  Estimate the nutrients (using kcal for calories) for each component.
 4.  Sum the nutrient values to provide a total estimation for the meal.
 5.  Provide a detailed, structured explanation of how the estimation was performed. This explanation must be easy to read, use bullet points, and ensure newlines separate distinct points and sections. It must include:
     *   A section titled "Identified Food Items & Assessment Strategy:".
@@ -78,10 +78,10 @@ Based on this description (and any information retrieved using the 'searchWebFor
     *   A section titled "General Assumptions:".
         *   Under this title, list any overarching assumptions made that apply to the overall meal or multiple items (e.g., "* Standard Indian portion sizes used as a baseline unless otherwise noted.", "* Cooking methods assumed to be typical home-style unless specified."). Use bullet points, each on a new line.
     *   A section titled "Nutrient Breakdown (Main Ingredients):".
-        *   Under this title, provide a summary of estimated nutrients for the main contributing ingredients. If the web search tool refined data for an item, note this (e.g., "* Basmati Rice (1 cup cooked): approx. X kcal, Yg protein.", "* Specific Curry (data refined by web search): approx. Z kcal, Wg protein."). Use bullet points, each on a new line.
+        *   Under this title, provide a summary of estimated nutrients (using kcal for calories) for the main contributing ingredients. If the web search tool refined data for an item, note this (e.g., "* Basmati Rice (1 cup cooked): approx. X kcal, Yg protein.", "* Specific Curry (data refined by web search): approx. Z kcal, Wg protein."). Use bullet points, each on a new line.
     *   A brief concluding remark.
 
-Example of the 'explanation' field content (ensure your output follows this style, especially the use of newlines and bullet points for each listed item and assumption):
+Example of the 'explanation' field content (ensure your output follows this style, especially the use of newlines and bullet points for each listed item and assumption, and use 'kcal' for calories):
 "Identified Food Items & Assessment Strategy:
 * Roti (2 pieces): Assumed to be whole wheat, medium size.
 * Dal Makhani (1 bowl): Standard restaurant portion size assumed. Web search tool consulted for 'Dal Makhani' to account for cream and butter content.
@@ -96,15 +96,15 @@ Nutrient Breakdown (Main Ingredients):
 * Dal Makhani (1 bowl, data refined by web search): approx. 250 kcal, 10g protein, 20g carbs, 15g fat.
 * Mixed Vegetable Sabzi (1 bowl): approx. 120 kcal, 4g protein, 15g carbs, 5g fat.
 
-This estimation is based on typical Indian preparations and portion sizes, supplemented by simulated web search for specific items as noted to improve accuracy."
+This estimation is based on typical Indian preparations and portion sizes, supplemented by simulated web search for specific items as noted to improve accuracy. All calorie values are in kcal."
 
 **Final Review Step:** Before providing the JSON output, meticulously review your entire estimation. Ensure:
     *   All food items from the user's description have been addressed.
-    *   The numerical estimates (calories, protein, carbs, fat) are consistent with the itemized breakdown in your explanation.
-    *   The totals for calories, protein, carbs, and fat correctly sum up from the individual item breakdowns.
+    *   The numerical estimates (calories in kcal, protein, carbs, fat) are consistent with the itemized breakdown in your explanation.
+    *   The totals for calories (in kcal), protein, carbs, and fat correctly sum up from the individual item breakdowns.
     *   The explanation is clear, uses bullet points and newlines as requested, and accurately reflects the use (or non-use) of the 'searchWebForNutritionInfoTool' for each item.
     *   All calculations are double-checked.
-    *   The output strictly adheres to the requested JSON schema.
+    *   The output strictly adheres to the requested JSON schema, ensuring calorie values are represented as kcal.
 This review is crucial for accuracy.
 
 Strive for the highest accuracy possible. Provide ONLY the JSON. Do not add any other text outside of the JSON. Do not return markdown.
